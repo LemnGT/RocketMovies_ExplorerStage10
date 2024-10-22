@@ -4,6 +4,7 @@ import { Header } from "../../components/Header";
 import { Section } from "../../components/Section";
 import { Tag } from "../../components/Tag";
 import { FaRegClock } from "react-icons/fa";
+import avatarPlaceholder from "../../assets/avatar-people-profile-svgrepo-com.svg";
 import {
   IoIosStar,
   IoIosStarOutline,
@@ -11,11 +12,17 @@ import {
 } from "react-icons/io";
 import { useState, useEffect } from "react";
 import { api } from "../../services/api";
+import { useAuth } from "../../hooks/auth";
 
 export function MoviePreview() {
   let i = 1;
   const goodRating = [];
   const badRating = [];
+
+  const { user } = useAuth();
+  const avatarUrl = user.avatar
+    ? `${api.defaults.baseURL}/files/${user.avatar}`
+    : avatarPlaceholder;
 
   const navigate = useNavigate();
 
@@ -82,8 +89,8 @@ export function MoviePreview() {
               </section>
             </div>
             <div id="infos">
-              <img src="https://github.com/LemnGT.png" alt="" />
-              <span>Por MG</span>
+              <img src={avatarUrl} alt="" />
+              <span>{user.name}</span>
               <FaRegClock />
               <span> {data.created_at}</span>
             </div>
